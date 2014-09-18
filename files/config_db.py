@@ -20,6 +20,7 @@ except:
     raise
 
 try:
+    print "Creating docker database"
     cursor.execute("CREATE DATABASE docker ENCODING 'utf8' OWNER docker TEMPLATE template1 ")
 except:
     print "Could not create docker database"
