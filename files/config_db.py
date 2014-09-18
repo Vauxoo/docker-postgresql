@@ -4,11 +4,13 @@ import psycopg2
 
 try:
     conn = psycopg2.connect("dbname='postgres'")
+    conn.set_isolation_level(0)
 except:
     print "Could not connect to PostgreSQL server"
     raise
-conn.set_isolation_level(0)
+
 cursor = conn.cursor()
+
 try:
     print "Creating users"
     cursor.execute("CREATE USER docker WITH SUPERUSER PASSWORD 'docker';")
@@ -22,5 +24,6 @@ try:
 except:
     print "Could not create docker database"
     raise
+
 cursor.close()
 conn.close()
