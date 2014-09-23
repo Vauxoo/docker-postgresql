@@ -18,7 +18,7 @@ RUN sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/cr
 # Install postgres and clean
 RUN apt-get install -y postgresql-9.3 \
         postgresql-client-9.3 postgresql-contrib-9.3 \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/log/supervisor
 
