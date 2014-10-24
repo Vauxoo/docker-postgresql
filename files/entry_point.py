@@ -6,7 +6,10 @@ import pwd
 
 postgres_path = '/var/lib/postgresql'
 st = stat(postgres_path)
-owner = pwd.getpwuid(st.st_uid).pw_name
+try:
+    owner = pwd.getpwuid(st.st_uid).pw_name
+except KeyError:
+    owner = "None"
 if owner != "postgres":
     print "Owner %s" % owner
     call(["chown", "-R", "postgres", postgres_path])
