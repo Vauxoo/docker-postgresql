@@ -27,9 +27,11 @@ def main():
     '''
     if "postgres" != get_owner(POSTGRES_CONFIG):
         call(["chown", "-R", "postgres", POSTGRES_CONFIG])
+        call(["chmod", "-R", "0700", POSTGRES_CONFIG])
 
     if "postgres" != get_owner(POSTGRES_PATH):
         call(["chown", "-R", "postgres", POSTGRES_PATH])
+        call(["chmod", "-R", "0700", POSTGRES_PATH])
 
     if listdir(POSTGRES_PATH) == []:
         call(['pg_createcluster', '9.3', 'main', '-e=utf8'])
