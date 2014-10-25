@@ -1,8 +1,11 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 from os import listdir, stat, chown, path
-from subprocess import Popen, call
+from subprocess import call
+import fileinput
 import pwd
+import re
 
 POSTGRES_PATH = '/var/lib/postgresql'
 POSTGRES_CONFIG = '/etc/postgresql'
@@ -37,8 +40,9 @@ def main():
         call(['pg_createcluster', '9.3', 'main', '-e=utf8'])
         with open(path.join(POSTGRES_CONFIG, "9.3", "main", "pg_hba.conf"), "a") as pg_hba:
             pg_hba.write("host all  all    0.0.0.0/0  md5")
-        with open(path.join(POSTGRES_CONFIG, "9.3", "main", "postgresql.conf"), "a") as pg_config:
-            pg_config.write("listen_addresses='*'")
+        for line in fileinput.input(path.join(POSTGRES_CONFIG, "9.3", "main", "postgresql.conf"), inplace=True):
+            line = re.sub(r'#?(listen_addresses) .*$', r"\1 = '*'", line.strip())
+            print(line)
         call(["/etc/init.d/postgresql", "start"])
         call(["su", "postgres", "-c /config_db.py"])
         call(["/etc/init.d/postgresql", "stop"])
