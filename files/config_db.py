@@ -3,13 +3,20 @@
 import psycopg2
 
 try:
-    conn = psycopg2.connect("dbname='postgres'")
+    conn = psycopg2.connect("dbname='template1'")
     conn.set_isolation_level(0)
 except:
     print "Could not connect to PostgreSQL server"
     raise
 
 cursor = conn.cursor()
+
+try:
+    print "Activate unnacent etension for all databases by defult"
+    cursor.execute("CREATE EXTENSION \"unaccent\";")
+except:
+    print "Could not create extension"
+    raise
 
 try:
     print "Creating users"
