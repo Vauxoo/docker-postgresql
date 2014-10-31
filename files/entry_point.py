@@ -42,6 +42,9 @@ def main():
             pg_hba.write("host all  all    0.0.0.0/0  md5")
         for line in fileinput.input(path.join(POSTGRES_CONFIG, "9.3", "main", "postgresql.conf"), inplace=True):
             line = re.sub(r'#?(listen_addresses) .*$', r"\1 = '*'", line.strip())
+            line = re.sub(r'#?(temp_buffers) .*$', r"\1 = 16MB", line.strip())
+            line = re.sub(r'#?(work_mem) .*$', r"\1 = 16MB", line.strip())
+            line = re.sub(r'#?(max_stack_depth) .*$', r"\1 = 7680kB", line.strip())
             print(line)
         call(["/etc/init.d/postgresql", "start"])
         call(["su", "postgres", "-c /config_db.py"])
