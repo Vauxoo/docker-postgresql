@@ -37,10 +37,10 @@ def main():
         call(["chmod", "-R", "0700", POSTGRES_PATH])
 
     if listdir(POSTGRES_PATH) == []:
-        call(['pg_createcluster', '9.3', 'main', '-e=utf8'])
-        with open(path.join(POSTGRES_CONFIG, "9.3", "main", "pg_hba.conf"), "a") as pg_hba:
+        call(['pg_createcluster', '9.5', 'main', '-e=utf8'])
+        with open(path.join(POSTGRES_CONFIG, "9.5", "main", "pg_hba.conf"), "a") as pg_hba:
             pg_hba.write("host all  all    0.0.0.0/0  md5")
-        for line in fileinput.input(path.join(POSTGRES_CONFIG, "9.3", "main", "postgresql.conf"), inplace=True):
+        for line in fileinput.input(path.join(POSTGRES_CONFIG, "9.5", "main", "postgresql.conf"), inplace=True):
             line = re.sub(r'#?(listen_addresses) .*$', r"\1 = '*'", line.strip())
             line = re.sub(r'#?(temp_buffers) .*$', r"\1 = 16MB", line.strip())
             line = re.sub(r'#?(work_mem) .*$', r"\1 = 16MB", line.strip())
