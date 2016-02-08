@@ -29,6 +29,6 @@ RUN chmod +x /entry_point.py && chmod +x /config_db.py
 
 EXPOSE 5432
 
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME  ["/etc/postgresql", "/var/log/supervisor", "/var/lib/postgresql"]
 
 ENTRYPOINT ["/entry_point.py"]
