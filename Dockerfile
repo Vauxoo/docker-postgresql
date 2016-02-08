@@ -4,8 +4,9 @@ MAINTAINER Tulio Ruiz <tulio@vauxoo.com>
 # Configure locale
 RUN locale-gen en_US.UTF-8 && update-locale
 RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
-
-RUN apt-key adv --keyserver pgp.mit.edu --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+RUN apt-get update && apt-get install wget -yq
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    sudo apt-key add -
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 
 RUN apt-get update && apt-get upgrade -y \
@@ -16,8 +17,8 @@ RUN apt-get update && apt-get upgrade -y \
 RUN sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf
 
 # Install postgres and clean
-RUN apt-get install -y postgresql-9.3 \
-        postgresql-client-9.3 postgresql-contrib-9.3 \
+RUN apt-get install -y postgresql-9.5 \
+        postgresql-client-9.5 postgresql-contrib-9.5 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/log/supervisor
