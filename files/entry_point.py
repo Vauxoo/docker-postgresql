@@ -46,6 +46,8 @@ def main():
             line = re.sub(r'#?(work_mem) .*$', r"\1 = 16MB", line.strip())
             line = re.sub(r'#?(max_stack_depth) .*$', r"\1 = 7680kB", line.strip())
             print(line)
+        with open(path.join(POSTGRES_CONFIG, '9.5', 'main', 'postgresql.conf'), 'a') as config:
+            config.write("include = '/etc/postgresql-common/common-vauxoo.conf'")
         call(["/etc/init.d/postgresql", "start"])
         call(["su", "postgres", "-c /config_db.py"])
         call(["/etc/init.d/postgresql", "stop"])

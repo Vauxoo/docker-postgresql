@@ -28,6 +28,11 @@ COPY files/entry_point.py /entry_point.py
 COPY files/config_db.py /config_db.py
 RUN chmod +x /entry_point.py && chmod +x /config_db.py
 
+# Create the directory for the postgres logs and configure postgres
+COPY files/common-vauxoo.conf /etc/postgresql-common/common-vauxoo.conf
+RUN mkdir -p /var/log/pg_log
+RUN chmod 0757 -R /var/log/pg_log
+
 EXPOSE 5432
 
 VOLUME  ["/etc/postgresql", "/var/log/supervisor", "/var/lib/postgresql"]
