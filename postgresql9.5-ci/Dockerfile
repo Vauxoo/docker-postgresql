@@ -1,4 +1,4 @@
-FROM postgres:9.6-alpine
+FROM postgres:9.5-alpine
 ENV LC_COLLATE "C"
 RUN mkdir -p /etc/postgresql/
 COPY ./postgresql.conf /etc/postgresql/postgresql.conf
